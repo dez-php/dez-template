@@ -1,6 +1,6 @@
 <?php
 
-namespace Dez\Template\Collection;
+namespace Dez\Template\Core\Collection;
 
 /**
  * Class DataStorage
