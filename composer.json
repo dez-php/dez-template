@@ -1,0 +1,21 @@
+{
+  "name": "dez-php/dez-template",
+  "description": "Simple View Component",
+  "keywords": ["php template","template","view","php view", "mvc view"],
+  "authors": [
+    {
+      "name": "Ivan Gontarenko",
+      "email": "stewie.dev@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "type": "library",
+  "require": {
+    "php": ">=5.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dez\\Template\\": "src/Template"
+    }
+  }
+}
