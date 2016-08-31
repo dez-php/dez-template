@@ -9,6 +9,8 @@ interface DataStorageInterface
 
     public function get($key, $default = null);
 
+    public function all(array $keys = []);
+
     public function batch(array $data);
 
     public function set($key, $data);
@@ -21,12 +23,16 @@ interface DataStorageInterface
 
     public function each(\Closure $closure);
 
+    public function sort(\Closure $closure);
+
+    public function exists();
+
+    public function clear();
+
     public function toObject();
 
     public function toArray();
 
     public function toJSON();
-
-    public function useStrict();
 
 }
