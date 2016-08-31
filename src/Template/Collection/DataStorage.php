@@ -201,7 +201,7 @@ class DataStorage implements \ArrayAccess, \IteratorAggregate, \Countable, \Json
      */
     public function toJSON()
     {
-        return json_encode($this->jsonSerialize());
+        return json_encode($this);
     }
 
     /**
