@@ -1,7 +1,7 @@
 {
   "name": "dez-php/dez-template",
   "description": "Simple View Component",
-  "keywords": ["php template","template","view","php view", "mvc view"],
+  "keywords": ["php template", "template", "view", "php view", "mvc view"],
   "authors": [
     {
       "name": "Ivan Gontarenko",

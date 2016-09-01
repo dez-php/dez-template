@@ -69,7 +69,6 @@ class File
     protected function getRealPath($path)
     {
         if (strpos($path, static::SEPARATOR) !== false) {
-
             list($name, $path) = explode(static::SEPARATOR, $path);
             $directory = $this->template->getDirectory($name);
 
