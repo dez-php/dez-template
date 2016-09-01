@@ -41,7 +41,7 @@ class Directory
     public function setPath($path)
     {
         if (!is_dir($path)) {
-            throw new TemplateException('Directory path [:path] not valid', [':path' => $path]);
+            throw new TemplateException('Directory path [:path] not valid', ['path' => $path]);
         }
 
         $this->path = $path;

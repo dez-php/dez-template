@@ -9,7 +9,10 @@ use Dez\Template\TemplateException;
  * Class File
  * @package Dez\Template\Core
  */
-class File {
+class File
+{
+
+    const SEPARATOR = '::';
 
     /**
      * @var Template
@@ -47,15 +50,35 @@ class File {
      */
     public function setFile($path)
     {
-        $realpath = realpath($this->template->getDirectory() . DIRECTORY_SEPARATOR . $path . '.php');
+        $fullpath = $this->getRealPath($path);
 
-        if( false === $realpath) {
-            throw new TemplateException('Template :name not found', [':name' => $path]);
+        if (false === $fullpath) {
+            throw new TemplateException('Template :name not found', ['name' => $path]);
         }
 
-        $this->file = new \SplFileInfo($realpath);
+        $this->file = new \SplFileInfo($fullpath);
 
         return $this;
+    }
+
+    /**
+     * @param $path
+     * @return string
+     * @throws TemplateException
+     */
+    protected function getRealPath($path)
+    {
+        if (strpos($path, static::SEPARATOR) !== false) {
+
+            list($name, $path) = explode(static::SEPARATOR, $path);
+            $directory = $this->template->getDirectory($name);
+
+            if (null !== $directory) {
+                return realpath($directory->getPath() . DIRECTORY_SEPARATOR . $path . '.php');
+            }
+        }
+
+        return realpath($this->template->getDirectory() . DIRECTORY_SEPARATOR . $path . '.php');
     }
 
     /**

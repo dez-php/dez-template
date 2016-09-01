@@ -106,6 +106,14 @@ class DataStorage implements \ArrayAccess, \IteratorAggregate, \Countable, \Json
     }
 
     /**
+     * @return array
+     */
+    public function keys()
+    {
+        return array_keys($this->data);
+    }
+
+    /**
      * @param \Closure $closure
      * @param array $context
      * @param bool $static

@@ -5,6 +5,8 @@ namespace Dez\Template;
 use Dez\Template\Core\Collection\DataStorage;
 use Dez\Template\Core\Compiler;
 use Dez\Template\Core\Directory;
+use Dez\Template\Core\ExtensionInterface;
+use Dez\Template\Extensions\ExtensionCase;
 
 /**
  * Class Template
@@ -28,6 +30,11 @@ class Template {
     protected $directories = null;
 
     /**
+     * @var DataStorage
+     */
+    protected $functions = null;
+
+    /**
      * @var null
      */
     protected $layout = null;
@@ -40,8 +47,11 @@ class Template {
     public function __construct($directory, array $data = [])
     {
         $this->data = new DataStorage($data);
-        $this->directories = new DataStorage();
         $this->directory = new Directory($directory);
+        $this->directories = new DataStorage();
+        $this->functions = new DataStorage();
+
+        $this->registerExtension(new ExtensionCase());
     }
 
     /**
@@ -115,9 +125,63 @@ class Template {
      * @param $path
      * @return Compiler
      */
-    protected function compiler($path)
+    public function compiler($path)
     {
         return new Compiler($path, $this);
+    }
+
+    /**
+     * @param ExtensionInterface $extension
+     * @return $this
+     */
+    public function registerExtension(ExtensionInterface $extension)
+    {
+        $extension->register($this);
+
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @param callable $callback
+     * @return $this
+     * @throws TemplateException
+     */
+    public function registerFunction($name, $callback)
+    {
+        if(! is_callable($callback, true)) {
+            throw new TemplateException('Function ":name" was not callable', ['name' => $name]);
+        }
+
+        $this->functions->set($name, $callback);
+
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @return $this
+     */
+    public function removeFunction($name)
+    {
+        $this->functions->remove($name);
+
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     * @throws TemplateException
+     */
+    public function resolveFunction($name, $arguments)
+    {
+        if(!$this->functions->has($name)) {
+            throw new TemplateException('Function ":name" was not registered yet', ['name' => $name]);
+        }
+
+        return call_user_func_array($this->functions->get($name), $arguments);
     }
 
     /**
@@ -133,11 +197,12 @@ class Template {
     }
 
     /**
-     * @return string
+     * @param null $name
+     * @return string|Directory
      */
-    public function getDirectory()
+    public function getDirectory($name = null)
     {
-        return $this->directory->getPath();
+        return null === $name ? $this->directory->getPath() : $this->directories->get($name);
     }
 
 

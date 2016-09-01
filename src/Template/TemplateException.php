@@ -19,7 +19,12 @@ class TemplateException extends \Exception
      */
     public function __construct($message, array $replacements = [], $code = 0, Exception $previous = null)
     {
-        $message = str_replace(array_keys($replacements), array_values($replacements), $message);
+        $keys = array_map(function ($key) {
+            return ":{$key}";
+        }, array_keys($replacements));
+        $values = array_values($replacements);
+        $message = str_replace($keys, $values, $message);
+
         parent::__construct($message, $code, $previous);
     }
 
