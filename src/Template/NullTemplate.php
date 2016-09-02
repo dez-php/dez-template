@@ -16,9 +16,9 @@ final class NullTemplate implements TemplateInterface {
     /**
      * NullTemplate constructor.
      */
-    public function __construct()
+    final public function __construct()
     {
-        $this->createException();
+
     }
 
     /**
