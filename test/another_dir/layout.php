@@ -9,7 +9,8 @@
 </head>
 <body>
 <?= $this->section('content'); ?>
-<?= $this->upper($title); ?>
+<?= $this->upper($this->e($title)); ?>
+<?= $this->escape($this->upper("<title>Dog & Cat \"Lol\" 'Ok'</title>")); ?>
 <hr>
 <hr>
 <hr>

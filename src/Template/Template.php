@@ -6,7 +6,7 @@ use Dez\Template\Core\Collection\DataStorage;
 use Dez\Template\Core\Compiler;
 use Dez\Template\Core\Directory;
 use Dez\Template\Core\ExtensionInterface;
-use Dez\Template\Extensions\ExtensionCase;
+use Dez\Template\Extensions\ExtensionDefault;
 
 /**
  * Class Template
@@ -51,7 +51,7 @@ class Template {
         $this->directories = new DataStorage();
         $this->functions = new DataStorage();
 
-        $this->registerExtension(new ExtensionCase());
+        $this->registerExtension(new ExtensionDefault());
     }
 
     /**
