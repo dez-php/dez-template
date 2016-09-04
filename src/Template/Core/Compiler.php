@@ -72,17 +72,20 @@ class Compiler {
             extract($this->template->data()->toArray());
 
             if (!$this->exists()) {
-                throw new TemplateException('Layout file [:file] could not been found', ['file' => $this->debugFilename()]);
+                throw new TemplateException('Layout file [:file] could not been found', [
+                    'file' => $this->debugFilename()
+                ]);
             }
 
             include $this->path();
+            
             $content = ob_get_clean();
 
             if($this->layoutName) {
                 $layout = $this->template->compiler($this->layoutName);
-                $layout->sections = $this->sections;
-                $layout->sections->batch(['content' => $content]);
+                $layout->copySectionFrom($this);
                 $this->template->data()->batch($this->layoutData);
+                $this->template->set('content', $content);
                 $content = $layout->render();
             }
 
@@ -158,6 +161,37 @@ class Compiler {
     protected function section($name, $default = null)
     {
         return $this->sections->has($name) ? $this->sections->get($name) : $default;
+    }
+
+    /**
+     * @param Compiler $compiler
+     * @return $this
+     */
+    protected function copySectionFrom(Compiler $compiler)
+    {
+        $this->getSections()->batch($compiler->getSections()->toArray());
+
+        return $this;
+    }
+
+    /**
+     * @return DataStorage
+     */
+    protected function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
+     * @param string $name
+     * @param string $content
+     * @return $this
+     */
+    protected function setSection($name, $content)
+    {
+        $this->sections->set($name, $content);
+
+        return $this;
     }
 
     /**
