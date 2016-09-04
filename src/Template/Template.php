@@ -12,7 +12,7 @@ use Dez\Template\Extensions\ExtensionDefault;
  * Class Template
  * @package Dez\Template
  */
-class Template {
+class Template implements TemplateInterface {
 
     /**
      * @var DataStorage
