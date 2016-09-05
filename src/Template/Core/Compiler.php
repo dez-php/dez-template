@@ -78,7 +78,7 @@ class Compiler {
             }
 
             include $this->path();
-            
+
             $content = ob_get_clean();
 
             if($this->layoutName) {
