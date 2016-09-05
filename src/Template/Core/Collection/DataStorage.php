@@ -122,7 +122,7 @@ class DataStorage implements \ArrayAccess, \IteratorAggregate, \Countable, \Json
         $collection = $static ? new static() : new DataStorage();
 
         foreach ($this as $key => $data) {
-            $collection->add($key, $closure($data, $context));
+            $collection->push($key, $closure($data, $context));
         }
 
         return $collection;

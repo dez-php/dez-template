@@ -15,7 +15,7 @@ interface DataStorageInterface
 
     public function set($key, $data);
 
-    public function add($key, $data);
+    public function push($key, $data);
 
     public function remove($key);
 
