@@ -86,7 +86,7 @@ class DataStorage implements \ArrayAccess, \IteratorAggregate, \Countable, \Json
         if (is_array($this->get($key))) {
             $this->data[$key][] = $data;
         } else {
-            $this->set($key, [$this->get($key), $data]);
+            $this->set($key, [$data]);
         }
 
         return $this;
